@@ -10,7 +10,7 @@ import { useGlobalContext } from "../../context";
 const SideBar = () => {
   const [sidebarMove, setSidebarMove] = useState(false);
 
-  const { categoryData, handleCategory } = useGlobalContext();
+  const { categoryData, handleCategory, dataReset } = useGlobalContext();
 
   const clickMove = (e) => {
     setSidebarMove(!sidebarMove);
@@ -19,7 +19,13 @@ const SideBar = () => {
   return (
     <Aside className={sidebarMove ? `sidebar open` : `sidebar close`}>
       <TitleWrapper>
-        <Link to={`/`} onClick={() => clickMove()}>
+        <Link
+          to={`/`}
+          onClick={() => {
+            dataReset();
+            clickMove();
+          }}
+        >
           <p>CATS IMG</p>
         </Link>
         <p>Category</p>

@@ -1,4 +1,10 @@
-import { SET_CATEGORY, TAKE_ID, PAGE_CHANGE, DATA_CHANGE } from "./actions";
+import {
+  SET_CATEGORY,
+  TAKE_ID,
+  PAGE_CHANGE,
+  DATA_CHANGE,
+  DATA_RESET,
+} from "./actions";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -8,7 +14,6 @@ const reducer = (state, action) => {
         categoryData: [...state.categoryData, ...action.payload],
       };
     case TAKE_ID: {
-      debugger;
       if (action.payload === state.catsId) {
         return { ...state };
       }
@@ -27,6 +32,14 @@ const reducer = (state, action) => {
       return {
         ...state,
         cats: [...state.cats, ...action.payload],
+      };
+    case DATA_RESET:
+      return {
+        ...state,
+        catsId: null,
+        limit: 10,
+        page: 1,
+        cats: [],
       };
     default:
       throw new Error(`no matching "${action.type}" action type`);

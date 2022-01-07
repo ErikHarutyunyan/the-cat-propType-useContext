@@ -1,7 +1,13 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
 import axios from "axios";
 
-import { SET_CATEGORY, TAKE_ID, PAGE_CHANGE, DATA_CHANGE } from "./actions";
+import {
+  SET_CATEGORY,
+  TAKE_ID,
+  PAGE_CHANGE,
+  DATA_CHANGE,
+  DATA_RESET,
+} from "./actions";
 
 import reducer from "./reducer";
 
@@ -28,18 +34,16 @@ const AppProvider = ({ children }) => {
   let limitData = `limit=${state.limit}`;
 
   useEffect(() => {
-    
     const apiUrlCategory = `${API_MAIN_URL}categories`;
-      axios
-        .get(apiUrlCategory)
-        .then((response) => {
-          const category = response.data;
-          dispatch({ type: SET_CATEGORY, payload: category });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
+    axios
+      .get(apiUrlCategory)
+      .then((response) => {
+        const category = response.data;
+        dispatch({ type: SET_CATEGORY, payload: category });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const handleCategory = (id) => {
@@ -51,6 +55,10 @@ const AppProvider = ({ children }) => {
   };
   const handleMemory = (data) => {
     dispatch({ type: DATA_CHANGE, payload: data });
+  };
+
+  const dataReset = () => {
+    return { type: DATA_RESET };
   };
 
   useEffect(() => {
@@ -74,6 +82,7 @@ const AppProvider = ({ children }) => {
         handleCategory,
         handleContent,
         handleMemory,
+        dataReset,
       }}
     >
       {children}
